@@ -1,0 +1,1 @@
+Download the repo, configure as a spring boot application, and run it using the run configuration provided within Eclipse IDE. All the data is stored in text files, including users.
