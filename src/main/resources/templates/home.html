@@ -6,17 +6,28 @@
 <title>Home</title>
 </head>
 <body>
-
-	<h2>Welcome to the Home Page!</h2>
-
+	<div th:if="${#request.userPrincipal.authenticated}">
+		<h2
+			th:text="${'Welcome to the Home Page, ' + #request.userPrincipal.name}"></h2>
+	</div>
+	<div
+		th:unless="${#request.isUserInRole('user') or #request.isUserInRole('admin')}">
+		<h2>Welcome to the Home Page,guest!</h2>
+	</div>
 	<a href="/login">
 		<button>Login page</button>
 	</a>
 	<a href="/error">
 		<button>Error page</button>
 	</a>
+	<a th:if="${#request.isUserInRole('admin')}" href="/admin">
+		<button>Admin page</button>
+	</a>
 	<a th:href="@{/logout}">
 		<button>Logout</button>
 	</a>
+
+	<!-- <p th:text="${#request.userPrincipal.authenticated}"></p>  -->
+
 </body>
 </html>

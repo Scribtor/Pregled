@@ -1,21 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Dejan's Coffee Shop</title>
+<meta charset="UTF-8">
+<title>Dejan's Coffee Shop</title>
 </head>
 <body>
-    <h1>Welcome to the Coffee Shop!</h1>
-    
-        <!-- Button to redirect to login page -->
-    <a href="/login">
-        <button>Login page</button>
-    </a>
-    <a href="/error">
-        <button>Error page</button>
-    </a>
-    <a href="/home">
-        <button>Home page</button>
-    </a>
+	<div th:if="${#request.userPrincipal.authenticated}">
+		<h2
+			th:text="${'Welcome to the Coffee Shop, ' + #request.userPrincipal.name}"></h2>
+	</div>
+	<div th:unless="${#request.userPrincipal.authenticated}">
+		<h2>Welcome to the Coffee Shop,guest!</h2>
+	</div>
+	<a href="/login">
+		<button>Login page</button>
+	</a>
+	<a href="/error">
+		<button>Error page</button>
+	</a>
+	<a href="/home">
+		<button>Home page</button>
+	</a>
+	<a href="/admin">
+		<button>Admin page</button>
+	</a>
+
+	<!-- <p th:text="${#request.userPrincipal.authenticated}"></p>  -->
 </body>
 </html>
