@@ -26,7 +26,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("admin")
                 .antMatchers("/home").authenticated()
                 .antMatchers("/error").permitAll()
                 .antMatchers("/").permitAll()
@@ -41,12 +41,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling()
                 .accessDeniedPage("/error")
             .and()
-            .csrf().disable()
+            .csrf().disable() // Disable CSRF for simplicity, but don't do this in production
             .logout()
             .logoutUrl("/logout") // Specify the URL for logout
             .logoutSuccessUrl("/") // Redirect to login page after logout
             .invalidateHttpSession(true)
-            .deleteCookies("JSESSIONID"); // Disable CSRF for simplicity, but don't do this in production
+            .deleteCookies("JSESSIONID")
+            .and()
+            .sessionManagement().maximumSessions(1).expiredUrl("/login?expired"); 
     }
 
     @Override
