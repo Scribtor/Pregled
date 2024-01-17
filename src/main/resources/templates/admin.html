@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <!-- Add your CSS stylesheets here -->
+</head>
+<body>
+
+<!-- Header Section -->
+<header>
+    <h1>Admin Page</h1>
+</header>
+
+<!-- Navigation Section -->
+<nav>
+    <ul>
+        <li><a href="#add-coffee">Add Coffee</a></li>
+        <li><a href="#remove-coffee">Remove Coffee</a></li>
+        <li><a href="#modify-coffee">Modify Coffee</a></li>
+    </ul>
+</nav>
+
+<!-- Main Content Section -->
+<main>
+
+    <!-- Add Coffee Section -->
+    <section id="add-coffee">
+        <h2>Add Coffee</h2>
+        <!-- Form for adding coffee -->
+        <form method="post" action="/admin/add-coffee">
+            <label for="coffeeType">Coffee Type:</label>
+            <input type="text" id="coffeeType" name="coffeeType" required>
+
+            <label for="coffeePrice">Coffee Price:</label>
+            <input type="number" id="coffeePrice" name="coffeePrice" step="0.01" required>
+
+            <label for="coffeePicture">Coffee Picture URL:</label>
+            <input type="text" id="coffeePicture" name="coffeePicture" required>
+
+            <label for="coffeeAmount">Amount of Coffee in Grams:</label>
+            <input type="number" id="coffeeAmount" name="coffeeAmount" required>
+
+            <label for="brewingTime">Brewing Time (seconds):</label>
+            <input type="number" id="brewingTime" name="brewingTime" required>
+
+            <button type="submit">Add Coffee</button>
+        </form>
+    </section>
+
+    <!-- Remove Coffee Section -->
+    <section id="remove-coffee">
+        <h2>Remove Coffee</h2>
+        <!-- Form for removing coffee -->
+        <form method="post" action="/admin/remove-coffee">
+            <label for="coffeeToRemove">Select Coffee to Remove:</label>
+            <select id="coffeeToRemove" name="coffeeToRemove" required>
+                <!-- Populate this dropdown dynamically with available coffees -->
+                <option value="coffee1">Coffee 1</option>
+                <option value="coffee2">Coffee 2</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <button type="submit">Remove Coffee</button>
+        </form>
+    </section>
+
+    <!-- Modify Coffee Section -->
+    <section id="modify-coffee">
+        <h2>Modify Coffee</h2>
+        <!-- Form for modifying coffee -->
+        <form method="post" action="/admin/modify-coffee">
+            <label for="coffeeToModify">Select Coffee to Modify:</label>
+            <select id="coffeeToModify" name="coffeeToModify" required>
+                <!-- Populate this dropdown dynamically with available coffees -->
+                <option value="coffee1">Coffee 1</option>
+                <option value="coffee2">Coffee 2</option>
+                <!-- Add more options as needed -->
+            </select>
+
+            <label for="modifiedPrice">Modified Price:</label>
+            <input type="number" id="modifiedPrice" name="modifiedPrice" step="0.01" required>
+
+            <label for="modifiedPicture">Modified Picture URL:</label>
+            <input type="text" id="modifiedPicture" name="modifiedPicture" required>
+
+            <label for="modifiedAmount">Modified Amount of Coffee in Grams:</label>
+            <input type="number" id="modifiedAmount" name="modifiedAmount" required>
+
+            <label for="modifiedBrewingTime">Modified Brewing Time (seconds):</label>
+            <input type="number" id="modifiedBrewingTime" name="modifiedBrewingTime" required>
+
+            <button type="submit">Modify Coffee</button>
+        </form>
+    </section>
+
+</main>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2024 Your Coffee Shop</p>
+</footer>
+
+<!-- Add your JavaScript scripts here -->
+
+	<a th:href="@{/logout}">
+		<button>Logout</button>
+	</a>
+
+</body>
+</html>
