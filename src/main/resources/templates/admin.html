@@ -1,108 +1,249 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Page</title>
-    <!-- Add your CSS stylesheets here -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Page</title>
+<!-- Add your CSS stylesheets here -->
 </head>
 <body>
 
-<!-- Header Section -->
-<header>
-    <h1>Admin Page</h1>
-</header>
+	<!-- Header Section -->
+	<header>
+		<h1>Admin Page</h1>
+	</header>
 
-<!-- Navigation Section -->
-<nav>
-    <ul>
-        <li><a href="#add-coffee">Add Coffee</a></li>
-        <li><a href="#remove-coffee">Remove Coffee</a></li>
-        <li><a href="#modify-coffee">Modify Coffee</a></li>
-    </ul>
-</nav>
+	<!-- Navigation Section -->
+	<nav>
+		<ul>
+			<li><a href="#add-coffee">Add Coffee</a></li>
+			<li><a href="#remove-coffee">Remove Coffee</a></li>
+			<li><a href="#modify-coffee">Modify Coffee</a></li>
+		</ul>
+	</nav>
 
-<!-- Main Content Section -->
-<main>
+	<!-- Main Content Section -->
+	<main>
 
-    <!-- Add Coffee Section -->
-    <section id="add-coffee">
-        <h2>Add Coffee</h2>
-        <!-- Form for adding coffee -->
-        <form method="post" action="/admin/add-coffee">
-            <label for="coffeeType">Coffee Type:</label>
-            <input type="text" id="coffeeType" name="coffeeType" required>
+		<!-- Add Coffee Section -->
+		<section id="add-coffee">
+			<h2>Add Coffee</h2>
+			<!-- Form for adding coffee -->
+			<form id="addCoffeeForm">
+				<!-- Coffee Type -->
+				<label for="type">Coffee Type:</label> <input type="text" id="type"
+					name="type" required>
 
-            <label for="coffeePrice">Coffee Price:</label>
-            <input type="number" id="coffeePrice" name="coffeePrice" step="0.01" required>
+				<!-- Price -->
+				<label for="price">Price:</label> <input type="number" id="price"
+					name="price" step="0.01" required>
 
-            <label for="coffeePicture">Coffee Picture URL:</label>
-            <input type="text" id="coffeePicture" name="coffeePicture" required>
+				<!-- Picture URL -->
+				<label for="picture">Picture URL:</label> <input type="text"
+					id="picture" name="picture" required>
 
-            <label for="coffeeAmount">Amount of Coffee in Grams:</label>
-            <input type="number" id="coffeeAmount" name="coffeeAmount" required>
+				<!-- Amount of Coffee in Grams -->
+				<label for="amountOfCoffeeInGrams">Amount of Coffee in
+					Grams:</label> <input type="number" id="amountOfCoffeeInGrams"
+					name="amountOfCoffeeInGrams" required>
 
-            <label for="brewingTime">Brewing Time (seconds):</label>
-            <input type="number" id="brewingTime" name="brewingTime" required>
+				<!-- Brewing Time -->
+				<label for="timeToBrew">Brewing Time (in seconds):</label> <input
+					type="number" id="timeToBrew" name="timeToBrew" required>
 
-            <button type="submit">Add Coffee</button>
-        </form>
-    </section>
+				<button type="button" onclick="addCoffee()">Add Coffee</button>
+			</form>
+		</section>
 
-    <!-- Remove Coffee Section -->
-    <section id="remove-coffee">
-        <h2>Remove Coffee</h2>
-        <!-- Form for removing coffee -->
-        <form method="post" action="/admin/remove-coffee">
-            <label for="coffeeToRemove">Select Coffee to Remove:</label>
-            <select id="coffeeToRemove" name="coffeeToRemove" required>
-                <!-- Populate this dropdown dynamically with available coffees -->
-                <option value="coffee1">Coffee 1</option>
-                <option value="coffee2">Coffee 2</option>
-                <!-- Add more options as needed -->
-            </select>
+		<!-- Remove Coffee Section -->
+		<section id="remove-coffee">
+			<h2>Remove Coffee</h2>
+			<!-- Form for removing coffee -->
+			<form method="post" action="/admin/remove-coffee"
+				id="removeCoffeeForm">
+				<label for="coffeeToRemove">Select Coffee to Remove:</label> <select
+					id="coffeeToRemove" name="coffeeToRemove" required>
+					<!-- Populate this dropdown dynamically with available coffees -->
+					<option th:each="coffee : ${coffeeList}" th:value="${coffee.id}"
+						th:text="${coffee.type}"></option>
+				</select>
+				<button type="button" onclick="removeCoffee()">Remove
+					Coffee</button>
+			</form>
+		</section>
 
-            <button type="submit">Remove Coffee</button>
-        </form>
-    </section>
+		<!-- Modify Coffee Section -->
+		<section id="modify-coffee">
+    		<h2>Modify Coffee</h2>
+		    <!-- Dropdown menu to select the coffee to modify -->
+		    <label for="coffeeToModify">Select Coffee to Modify:</label>
+    		<select id="coffeeToModify" name="coffeeToModify" required>
+        		<option th:each="coffee : ${coffeeList}" th:value="${coffee.id}" th:text="${coffee.type}"></option>
+    		</select>
 
-    <!-- Modify Coffee Section -->
-    <section id="modify-coffee">
-        <h2>Modify Coffee</h2>
-        <!-- Form for modifying coffee -->
-        <form method="post" action="/admin/modify-coffee">
-            <label for="coffeeToModify">Select Coffee to Modify:</label>
-            <select id="coffeeToModify" name="coffeeToModify" required>
-                <!-- Populate this dropdown dynamically with available coffees -->
-                <option value="coffee1">Coffee 1</option>
-                <option value="coffee2">Coffee 2</option>
-                <!-- Add more options as needed -->
-            </select>
+		    <!-- Button to show the modification form -->
+		    <button type="button" onclick="showModifyForm()">Modify Coffee</button>
 
-            <label for="modifiedPrice">Modified Price:</label>
-            <input type="number" id="modifiedPrice" name="modifiedPrice" step="0.01" required>
+		    <!-- Form for modifying coffee (initially hidden) -->
+    		<form method="post" action="/api/coffee/modify/{id}" id="modifyCoffeeForm" hidden>
+        		<!-- Hidden input for coffee ID (readonly) -->
+        		<input type="hidden" id="coffeeId" name="coffeeId" readonly />
 
-            <label for="modifiedPicture">Modified Picture URL:</label>
-            <input type="text" id="modifiedPicture" name="modifiedPicture" required>
+        		<!-- Other modification fields... -->
+        		<label for="type">Coffee Type:</label>
+        		<input type="text" id="type" name="type" required>
 
-            <label for="modifiedAmount">Modified Amount of Coffee in Grams:</label>
-            <input type="number" id="modifiedAmount" name="modifiedAmount" required>
+		        <label for="price">Price:</label>
+        		<input type="number" id="price" name="price" step="0.01" required>
 
-            <label for="modifiedBrewingTime">Modified Brewing Time (seconds):</label>
-            <input type="number" id="modifiedBrewingTime" name="modifiedBrewingTime" required>
+        		<label for="picture">Picture URL:</label>
+        		<input type="text" id="picture" name="picture" required>
 
-            <button type="submit">Modify Coffee</button>
-        </form>
-    </section>
+		        <label for="amountOfCoffeeInGrams">Amount of Coffee in Grams:</label>
+        		<input type="number" id="amountOfCoffeeInGrams" name="amountOfCoffeeInGrams" required>
 
-</main>
+		        <label for="timeToBrew">Brewing Time (in seconds):</label>
+        		<input type="number" id="timeToBrew" name="timeToBrew" required>
 
-<!-- Footer Section -->
-<footer>
-    <p>&copy; 2024 Your Coffee Shop</p>
-</footer>
+		        <button type="button" onclick="modifyCoffee()">Modify Coffee</button>
+		    </form>
+		</section>
 
-<!-- Add your JavaScript scripts here -->
+		<script type="text/javascript">
+		function addCoffee() {
+		    var form = document.getElementById("addCoffeeForm");
+		    var formData = new FormData(form);
+
+		    fetch("/api/coffee/add", {
+		        method: "POST",
+		        body: formData
+		    })
+		    .then(response => response.text())
+		    .then(data => {
+		        console.log(data);
+		        // Handle success or display error messages
+		        location.reload(); // Reload the page after successful addition
+		    })
+		    .catch(error => {
+		        console.error("Error adding coffee:", error);
+		        // Handle error
+		    });
+		}
+		function removeCoffee() {
+		    const formData = new FormData(document.getElementById('removeCoffeeForm'));
+		    const coffeeId = formData.get('coffeeToRemove');
+		    
+		    fetch(`/api/coffee/remove/${coffeeId}`, {
+		        method: 'DELETE',
+		        headers: {
+		            'Content-Type': 'application/json',
+		        },
+		    })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error(`HTTP error! Status: ${response.status}`);
+		        }
+		        return response.text();
+		    })
+		    .then(data => {
+		        console.log('Coffee removed:', data);
+		        // Implement any necessary UI updates or notifications
+		        location.reload(); // Reload the page after successful removal
+		    })
+		    .catch(error => {
+		        console.error('Error removing coffee:', error);
+		        // Handle the error, e.g., display a user-friendly message
+		    });
+		}
+
+		function showModifyForm() {
+		    // Fetch the list of all coffees from the backend
+		    fetch('/api/coffee/list')
+		        .then(response => response.json())
+		        .then(coffeeList => {
+		            // Populate the coffee selection box
+		            const coffeeToModifySelect = document.getElementById('coffeeToModify');
+		            coffeeToModifySelect.innerHTML = '';
+
+		            coffeeList.forEach(coffee => {
+		                const option = document.createElement('option');
+		                option.value = coffee.id;
+		                option.text = coffee.type;
+		                coffeeToModifySelect.appendChild(option);
+		            });
+
+		            // Show the modification form
+		            document.getElementById('modifyCoffeeForm').removeAttribute('hidden');
+
+		            // Fetch details for the selected coffee to modify
+		            const selectedCoffeeId = coffeeToModifySelect.value;
+		            fetch(`/api/coffee/modify/${selectedCoffeeId}`)
+		                .then(response => response.json())
+		                .then(selectedCoffee => {
+		                    // Populate the modification form with the selected coffee's details
+		                    document.getElementById('coffeeId').value = selectedCoffee.id;
+		                    document.getElementById('type').value = selectedCoffee.type;
+		                    document.getElementById('price').value = selectedCoffee.price;
+		                    document.getElementById('picture').value = selectedCoffee.picture;
+		                    document.getElementById('amountOfCoffeeInGrams').value = selectedCoffee.amountOfCoffeeInGrams;
+		                    document.getElementById('timeToBrew').value = selectedCoffee.timeToBrew;
+		                })
+		                .catch(error => {
+		                    console.error('Error fetching selected coffee details:', error);
+		                    // Handle the error, e.g., display a user-friendly message
+		                });
+		        })
+		        .catch(error => {
+		            console.error('Error fetching coffee list:', error);
+		            // Handle the error, e.g., display a user-friendly message
+		        });
+		}
+
+		
+		function modifyCoffee() {
+		    const formData = new FormData(document.getElementById('modifyCoffeeForm'));
+		    const coffeeId = document.getElementById('coffeeToModify').value;
+
+		    // Construct the URL with the dynamic coffeeId
+		    const apiUrl = `/api/coffee/modify/${coffeeId}`;
+
+		    fetch(apiUrl, {
+		        method: 'PUT',
+		        body: formData,
+		        headers: {
+		            'Content-Type': 'application/json',
+		        },
+		    })
+		    .then(response => {
+		        if (!response.ok) {
+		            throw new Error(`HTTP error! Status: ${response.status}`);
+		        }
+		        return response.json();
+		    })
+		    .then(modifiedCoffee => {
+		        console.log('Coffee modified:', modifiedCoffee);
+		        // Implement any necessary UI updates or notifications
+
+		        // Clear the modification form after a successful modification
+		        document.getElementById('modifyCoffeeForm').reset();
+		    })
+		    .catch(error => {
+		        console.error('Error modifying coffee:', error);
+		        // Handle the error, e.g., display a user-friendly message
+		    });
+		}
+
+
+
+		</script>
+	</main>
+
+	<!-- Footer Section -->
+	<footer>
+		<p>&copy; 2024 Your Coffee Shop</p>
+	</footer>
+
+	<!-- Add your JavaScript scripts here -->
 
 	<a th:href="@{/logout}">
 		<button>Logout</button>

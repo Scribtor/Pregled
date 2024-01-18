@@ -1,0 +1,3 @@
+Espresso,1.00,esp,7,35,1705597559673
+Espresso doppio,2.00,espdop,14,45,1705597584203
+Cappuccino,2.50,cap,7,60,1705597608658
