@@ -10,12 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface BaristaRepository {
 
     void save(Barista barista);
-
-    Barista findById(String name);
-
     List<Barista> findAll();
-
-    void update(Barista barista);
-
-    void delete(String name);
 }

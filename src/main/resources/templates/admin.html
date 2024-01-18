@@ -108,6 +108,16 @@
 		        <button type="button" onclick="modifyCoffee()">Modify Coffee</button>
 		    </form>
 		</section>
+		<!-- Place Coffee Order Section -->
+    	<section id="place-coffee-order">
+        	<h2>Place Coffee Order</h2>
+        	<!-- Dropdown menu to dynamically select the coffee type -->
+        	<label for="coffeeType">Select Coffee Type:</label>
+        	<select id="coffeeType" name="coffeeType" required>
+				<option th:each="coffee : ${coffeeList}" th:value="${coffee.id}" th:text="${coffee.type}"></option>
+        	</select>
+        	<button type="button" onclick="placeCoffeeOrder()">Place Coffee Order</button>
+    	</section>
 
 		<script type="text/javascript">
 		function addCoffee() {
@@ -232,15 +242,37 @@
 		        // Handle the error, e.g., display a user-friendly message
 		    });
 		}
+		
+		function placeCoffeeOrder() {
+		    const selectedCoffeeType = document.getElementById('coffeeType').value;
 
-
+		    fetch('http://localhost:8080/api/orders', {
+		        method: 'POST',
+		        headers: {
+		            'Content-Type': 'application/json',
+		        },
+		        body: JSON.stringify({
+		            type: selectedCoffeeType,
+		            // Add more order details if necessary
+		        }),
+		    })
+		    .then(response => response.json())
+		    .then(data => {
+		        console.log('Order placed successfully:', data);
+		        // You can add additional logic here, such as displaying a success message to the user
+		    })
+		    .catch(error => {
+		        console.error('Error placing order:', error);
+		        // Handle errors, e.g., display an error message to the user
+		    });
+		}
 
 		</script>
 	</main>
 
 	<!-- Footer Section -->
 	<footer>
-		<p>&copy; 2024 Your Coffee Shop</p>
+		<p>&copy; 2024 Coffee Shop</p>
 	</footer>
 
 	<!-- Add your JavaScript scripts here -->

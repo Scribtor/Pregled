@@ -1,20 +1,20 @@
 package com.gunsh.coffeeshop.repository;
 
-import com.gunsh.coffeeshop.model.Barista;
+import com.gunsh.coffeeshop.model.Barman;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BaristaRepositoryImpl implements BaristaRepository {
+public class BarmanRepositoryImpl implements BarmanRepository {
 
-    private static final String DATA_FILE_PATH = "src/data/baristas.txt";
+    private static final String DATA_FILE_PATH = "src/data/barman.txt";
 
     @Override
-    public void save(Barista barista) {
+    public void save(Barman bartender) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(DATA_FILE_PATH, true))) {
             writer.write(String.format("%s",
-                    barista.getName()));
+                    bartender.getName()));
             writer.newLine();
         } catch (IOException e) {
             e.printStackTrace(); // Handle the exception appropriately
@@ -22,18 +22,18 @@ public class BaristaRepositoryImpl implements BaristaRepository {
     }
 
     @Override
-    public List<Barista> findAll() {
-        List<Barista> baristas = new ArrayList<>();
+    public List<Barman> findAll() {
+        List<Barman> barmen = new ArrayList<>();
         try (BufferedReader reader = new BufferedReader(new FileReader(DATA_FILE_PATH))) {
             String line;
             while ((line = reader.readLine()) != null) {
-                // Create a new Barista object with the name from the line
-                Barista barista = new Barista(line.trim());  // Use trim to remove leading/trailing whitespaces
-                baristas.add(barista);
+                // Create a new Barman object with the name from the line
+                Barman barman = new Barman(line.trim());  // Use trim to remove leading/trailing whitespaces
+                barmen.add(barman);
             }
         } catch (IOException e) {
             e.printStackTrace(); // Handle the exception appropriately
         }
-        return baristas;
+        return barmen;
     }
 }
