@@ -11,8 +11,8 @@ Welcome to the Coffee Shop App! This application simulates a coffee shop with or
 
 ### Clone the Repository
 
-git clone https://github.com/yourusername/coffee-shop-app.git 
-cd coffee-shop-app
+*   git clone https://github.com/yourusername/-NameSurname_Omega_CoffeeShop.git 
+*   cd coffee-shop-app
 
 ### Import the Project into Eclipse
 
