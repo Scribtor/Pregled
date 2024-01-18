@@ -73,4 +73,4 @@ Welcome to the Coffee Shop App! This application simulates a coffee shop with or
 *   All the data is stored in text files, including users.
 *   Data is located inside src/data.
 
-This is the point where I make a lot of excuses for the state of this repository, which I thought better of. Feel free to reach out directly to me if you have any questions
+This is the point where I make a lot of excuses for the state of this repository, something I thought better of. Feel free to reach out directly to me if you have any questions
