@@ -60,6 +60,12 @@ Welcome to the Coffee Shop App! This application simulates a coffee shop with or
     *   Description: Get details of a specific coffee by ID.
     *   Path Variable: Coffee ID.
     *   Response: Coffee details or HTTP status.
+6.  #### Order coffee 
+
+    *   Endpoint: `POST /api/coffee/order`
+    *   Description: Get details of a specific coffee by ID.
+    *   Request Body: Order details
+    *   Response: Order status or HTTP status.
 
 ### Notes
 

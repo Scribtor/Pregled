@@ -16,16 +16,20 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.gunsh.coffeeshop.model.Coffee;
+import com.gunsh.coffeeshop.model.Order;
 import com.gunsh.coffeeshop.service.CoffeeService;
+import com.gunsh.coffeeshop.service.OrderService;
 
 @Controller
 public class PageController {
 
     private final CoffeeService coffeeService;
+    private final OrderService orderService;
 
     @Autowired
-    public PageController(CoffeeService coffeeService) {
+    public PageController(CoffeeService coffeeService, OrderService orderService) {
         this.coffeeService = coffeeService;
+		this.orderService = orderService;
     }
 
     // HTML mappings
@@ -102,10 +106,15 @@ public class PageController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     
-    @GetMapping("/favicon.ico")
-    public String favicon() {
-        return "forward:/resources/static/favicon.ico";
+    @PostMapping("/api/coffee/order")
+    public ResponseEntity<String> placeOrder(@RequestBody Order order) {
+        try {
+            // Assuming OrderService has a method to handle placing orders
+            orderService.placeOrder(order);
+            return new ResponseEntity<>("Order placed successfully", HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
