@@ -66,4 +66,3 @@ cd coffee-shop-app
 *   The application is not started with Maven but run directly from the IDE (Eclipse).
 *   All the data is stored in text files, including users.
 *   Data is located inside src/data.
-*   There is no frontend as of now.
